@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glamour Nails Salon</title>
     <style>
-        /* Basic Styling */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -19,6 +18,15 @@
         }
         header h1 {
             margin: 0;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
         }
         nav button {
             margin: 5px;
@@ -39,7 +47,29 @@
 <body>
     <div id="app"></div>
     <script type="module">
-        import Act from './Act.js';
+        import Act from './Act.js';  // Correctly import Act.js
+
+        // Creating Header and Footer
+        Act.createHeader({ content: `<h1>Welcome to Glamour Nails Salon</h1>` });
+        Act.createFooter({ content: `<p>&copy; 2024 Glamour Nails Salon - All rights reserved.</p>` });
+
+        // Example Component
+        Act.createComponent({
+            name: 'nail-services',
+            state: { services: ['Manicure', 'Pedicure', 'Nail Art', 'Gel Polish'] },
+            template: (state) => `
+              <div>
+                <h2>Our Services</h2>
+                <ul>
+                  ${state.services.map(service => `<li>${service}</li>`).join('')}
+                </ul>
+              </div>
+            `,
+            methods: {}
+        });
+
+        // Add the component to the page
+        document.getElementById('app').innerHTML = `<nail-services></nail-services>`;
     </script>
 </body>
 </html>
