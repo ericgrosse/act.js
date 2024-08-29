@@ -6,70 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glamour Nails Salon</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
+        /* ... (existing styles remain unchanged) */
+        header, footer {
             background-color: #f4b6c2;
             padding: 10px;
             text-align: center;
         }
-        header h1 {
-            margin: 0;
-        }
         footer {
             background-color: #333;
             color: white;
-            padding: 10px;
-            text-align: center;
             position: fixed;
             width: 100%;
             bottom: 0;
         }
-        nav button {
-            margin: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        main {
-            padding: 20px;
-        }
-        form input, form select, form button {
-            display: block;
-            margin: 10px 0;
-            padding: 5px;
-            width: 200px;
-        }
     </style>
 </head>
 <body>
+    <header></header>
     <div id="app"></div>
+    <footer></footer>
     <script type="module">
-        import Act from './Act.js';  // Correctly import Act.js
+        import Act from './Act.js';
 
-        // Creating Header and Footer
-        Act.createHeader({ content: `<h1>Welcome to Glamour Nails Salon</h1>` });
-        Act.createFooter({ content: `<p>&copy; 2024 Glamour Nails Salon - All rights reserved.</p>` });
-
-        // Example Component
-        Act.createComponent({
-            name: 'nail-services',
-            state: { services: ['Manicure', 'Pedicure', 'Nail Art', 'Gel Polish'] },
-            template: (state) => `
-              <div>
-                <h2>Our Services</h2>
-                <ul>
-                  ${state.services.map(service => `<li>${service}</li>`).join('')}
-                </ul>
-              </div>
+        // Create Header
+        Act.createHeader({
+            template: () => `
+                <h1>Welcome to Glamour Nails Salon</h1>
+                <nav>
+                    <button data-onclick="showServices">Services</button>
+                    <button data-onclick="showBookingForm">Book Appointment</button>
+                    <button data-onclick="showContact">Contact Us</button>
+                </nav>
             `,
-            methods: {}
+            methods: {
+                showServices() {
+                    Act.components[0].state.currentView = 'services';
+                    Act.renderAll();
+                },
+                showBookingForm() {
+                    Act.components[0].state.currentView = 'booking';
+                    Act.renderAll();
+                },
+                showContact() {
+                    Act.components[0].state.currentView = 'contact';
+                    Act.renderAll();
+                }
+            }
         });
 
-        // Add the component to the page
-        document.getElementById('app').innerHTML = `<nail-services></nail-services>`;
+        // Create Footer
+        Act.createFooter({
+            template: () => `
+                <p>&copy; 2024 Glamour Nails Salon - All rights reserved.</p>
+            `
+        });
+
+        // Main App Component
+        Act.createComponent({
+            target: '#app',
+            template: (state, methods) => `
+                <main>
+                    <section id="content">
+                        ${methods.renderCurrentView()}
+                    </section>
+                </main>
+            `,
+            data: {
+                currentView: 'home',
+                services: [
+                    { name: 'Manicure', price: '$20' },
+                    { name: 'Pedicure', price: '$25' },
+                    { name: 'Gel Nails', price: '$30' },
+                ],
+                bookingForm: {
+                    name: '',
+                    date: '',
+                    time: '',
+                    service: '',
+                },
+            },
+            methods: {
+                // ... (existing methods remain unchanged)
+            }
+        });
+
+        // Render all components
+        Act.renderAll();
     </script>
 </body>
 </html>

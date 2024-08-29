@@ -1,4 +1,4 @@
-// Act.js Source Code
+// Act.js
 
 class ActComponent {
   constructor(options) {
@@ -39,6 +39,8 @@ class ActComponent {
 const Act = {
   components: [],
   plugins: [],
+  header: null,
+  footer: null,
   
   createComponent(options) {
     const component = new ActComponent(options);
@@ -52,20 +54,34 @@ const Act = {
       plugin(this);
     }
   },
+
+  // New methods for header and footer
+  createHeader(options) {
+    this.header = new ActComponent({
+      ...options,
+      target: 'header'
+    });
+  },
+
+  createFooter(options) {
+    this.footer = new ActComponent({
+      ...options,
+      target: 'footer'
+    });
+  },
+
+  // Method to render all components, including header and footer
+  renderAll() {
+    if (this.header) this.header.render();
+    this.components.forEach(component => component.render());
+    if (this.footer) this.footer.render();
+  }
 };
 
 // Nail Salon Website Example
 Act.createComponent({
   target: '#app',
   template: (state, methods) => `
-    <header>
-      <h1>${state.businessName}</h1>
-      <nav>
-        <button data-onclick="showServices">Services</button>
-        <button data-onclick="showBookingForm">Book Appointment</button>
-        <button data-onclick="showContact">Contact Us</button>
-      </nav>
-    </header>
     <main>
       <section id="content">
         ${methods.renderCurrentView()}
@@ -122,15 +138,6 @@ Act.createComponent({
         default:
           return '<p>Page not found</p>';
       }
-    },
-    showServices() {
-      this.currentView = 'services';
-    },
-    showBookingForm() {
-      this.currentView = 'booking';
-    },
-    showContact() {
-      this.currentView = 'contact';
     },
     updateBookingForm(event) {
       const field = event.target.dataset.field;
