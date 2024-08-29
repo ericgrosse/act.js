@@ -82,15 +82,13 @@ const Act = {
 Act.createComponent({
   target: '#app',
   template: (state, methods) => `
-    <main>
-      <section id="content">
-        ${methods.renderCurrentView()}
-      </section>
-    </main>
+    <section id="content">
+      ${methods.renderCurrentView()}
+    </section>
   `,
   data: {
     businessName: 'Glamour Nails Salon',
-    currentView: 'home',
+    currentView: 'home', // Ensure this is set to 'home'
     services: [
       { name: 'Manicure', price: '$20' },
       { name: 'Pedicure', price: '$25' },
