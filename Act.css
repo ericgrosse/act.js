@@ -1,0 +1,51 @@
+/* Act.css */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #f4b6c2;
+  padding: 10px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+  margin-bottom: 60px; /* Add space for the footer */
+}
+
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+nav button {
+  margin: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+form input,
+form select,
+form button {
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
+  width: 200px;
+}

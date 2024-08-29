@@ -5,49 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glamour Nails Salon</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        header {
-            background-color: #f4b6c2;
-            padding: 10px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-        }
-        main {
-            flex: 1;
-            padding: 20px;
-            margin-bottom: 60px; /* Add space for the footer */
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        nav button {
-            margin: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        form input, form select, form button {
-            display: block;
-            margin: 10px 0;
-            padding: 5px;
-            width: 200px;
-        }
-    </style>
+    <link rel="stylesheet" href="Act.css"> <!-- Link to Act.css -->
 </head>
 <body>
     <header></header>
@@ -97,7 +55,66 @@
                     ${methods.renderCurrentView()}
                 </section>
             `,
-            // ... (rest of the component code)
+            data: {
+                businessName: 'Glamour Nails Salon',
+                currentView: 'home',
+                services: [
+                    { name: 'Manicure', price: '$20' },
+                    { name: 'Pedicure', price: '$25' },
+                    { name: 'Gel Nails', price: '$30' },
+                ],
+                bookingForm: {
+                    name: '',
+                    date: '',
+                    time: '',
+                    service: '',
+                },
+            },
+            methods: {
+                renderCurrentView() {
+                    switch (this.currentView) {
+                        case 'home':
+                            return `<h2>Welcome to ${this.businessName}</h2><p>Experience the best nail care in town!</p>`;
+                        case 'services':
+                            return `
+                                <h2>Our Services</h2>
+                                <ul>
+                                    ${this.services.map(service => `<li>${service.name} - ${service.price}</li>`).join('')}
+                                </ul>
+                            `;
+                        case 'booking':
+                            return `
+                                <h2>Book an Appointment</h2>
+                                <form>
+                                    <input type="text" placeholder="Your Name" value="${this.bookingForm.name}" data-oninput="updateBookingForm" data-field="name" />
+                                    <input type="date" value="${this.bookingForm.date}" data-oninput="updateBookingForm" data-field="date" />
+                                    <input type="time" value="${this.bookingForm.time}" data-oninput="updateBookingForm" data-field="time" />
+                                    <select data-oninput="updateBookingForm" data-field="service">
+                                        <option value="">Select a Service</option>
+                                        ${this.services.map(service => `<option value="${service.name}">${service.name}</option>`).join('')}
+                                    </select>
+                                    <button type="button" data-onclick="submitBooking">Submit</button>
+                                </form>
+                            `;
+                        case 'contact':
+                            return `
+                                <h2>Contact Us</h2>
+                                <p>Email: info@glamournails.com</p>
+                                <p>Phone: +1 (123) 456-7890</p>
+                            `;
+                        default:
+                            return '<p>Page not found</p>';
+                    }
+                },
+                updateBookingForm(event) {
+                    const field = event.target.dataset.field;
+                    this.bookingForm[field] = event.target.value;
+                },
+                submitBooking() {
+                    alert(`Appointment booked for ${this.bookingForm.name} on ${this.bookingForm.date} at ${this.bookingForm.time} for ${this.bookingForm.service}!`);
+                    this.currentView = 'home';
+                }
+            }
         });
 
         // Render all components
